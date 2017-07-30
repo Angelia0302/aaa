@@ -1,6 +1,7 @@
 <template>
   <div class="onclick">
-    <el-menu :default-active="onRoutes" mode="vertical" default="2" class="el-menu-vertical-demo">
+    <!-- <el-menu :default-active="onRoutes" mode="vertical" default="2" class="el-menu-vertical-demo"> -->
+    <el-menu mode="vertical" default="2" class="el-menu-vertical-demo">
      	<h3>简记后台</h3>
      	<i class="el-icon-date"></i>
      		<template v-for="item in items">

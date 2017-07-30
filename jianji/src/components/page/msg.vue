@@ -3,36 +3,42 @@
     <div class="right">
     	<input v-model="input" class="input_tile" placeholder="请输入关键字"></input>
 	<button class="el-button el-button--primary" type="primary">搜索</button>
-	<table class="table_th" border="0" cellspacing="0" align="center">
-		<tr><td class="cell"  bgcolor="#20a0ff" v-for='info in infous'>{{info.th}}</td></tr>
-		<tr v-for='item in items'>
-		<td colspan="0" border="1" v-for='main in mains.items'>{{main.text}}</td>
-		<tr v-for='item in items'>
-		<td colspan="0" border="1" v-for='main in mains.items'>{{main.text}}</td>
-		<td colspan="0" border="1">2017.02.03
-		</td>
-		<td colspan="0" border="1" v-show='!flage' @click='chang'>已提交</td><td colspan="0" border="1" v-show='flage'>未提交</td>
-		<td colspan="0" border="1">2014.03.05</td>
-		<td colspan="0" border="1">北京云总财科技有限公司</td>
-		<td colspan="0" border="1">123456789</td>
-		<td colspan="0" border="1">200.00</td>
-		<td colspan="0" border="1">cxy@163.com</td>
-		<td colspan="0" border="1">152456789</td>
-		<td colspan="0" border="1">聪明</td>
-		<td colspan="0" border="1">IDy</td>
+	<table class="table_th" border="0" cellspacing="0" align="center" v-if="infous">
+		<thead>
+			<tr>
+				<th class="cell"  bgcolor="#20a0ff" v-for='info in infous'>{{info.th}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr></tr>
+		</tbody>
+		<tr v-for='main in items'>
+			<td colspan="0" border="1">{{main.id}}</td>
+			<td colspan="0" border="1">{{main.created_date}}</td>
+			<!-- <td colspan="0" border="1" v-show='!flage' @click='chang'>已提交</td>
+			<td colspan="0" border="1" v-show='flage'>未提交</td> -->
+			<td colspan="0" border="1">未提交</td>
+			<td colspan="0" border="1">{{main.last_modified_date}}</td>
+			<td colspan="0" border="1">{{main.invoiceTitle}}</td>
+			<td colspan="0" border="1">{{main.companyId}}</td>
+			<td colspan="0" border="1">{{main.moneyAmount}}</td>
+			<td colspan="0" border="1">{{main.email}}</td>
+			<td colspan="0" border="1">{{main.contact}}</td>
+			<td colspan="0" border="1">{{main.mobile}}</td>
+			<td colspan="0" border="1">{{main.last_modified_date}}</td>
 		</tr>
 		<tr>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
-		<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
+			<td colspan="0" border="1"></td>
 		</tr>
 		<tr>
 		<td colspan="0" border="1"></td>
@@ -234,15 +240,16 @@
 </template>
 
 <script>
-
    
-import axios from 'axios';
-//import http from '../../assets/js/http.js';
-  export default {
+// import axios from 'axios';
+import http from '../../assets/js/http.js';
+import mockData from '../../assets/js/mockData'
+export default {
 
     data() {
       return {
        input:'',
+       items: '',
        infous:[
        		{th:'序号'},
        		{th:'提交日期'},
@@ -258,33 +265,31 @@ import axios from 'axios';
        	]   
       }
     },
-
-   
     mounted() {
 
-    	axios({
-    		    	url:'/api/invoices',
-    		    	menthod:'GET',
-    		    	header:{'Authorization': 
-    						    	'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODQwMTU3MTc2NyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE1MDEzOTczMTd9.qp7wxWMpguDyGf6acDAcrsVl1Mk7sDAtjT20LBJ8eYBszYZjaMWXgRqUJKI35cMZ91-RssaleCgUJSxaMzHYDQ'}}).then((res) => {
-    		    		console.log(res)}
-	    	)
-    		/*$.ajax({
-				url: 'http://192.168.8.177:4210/api/invoices/',
-				type: 'GET',
-				dataType: 'json',
-				headers: {
-					Authorization: 
-				    	'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODQwMTU3MTc2NyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE1MDEzOTczMTd9.qp7wxWMpguDyGf6acDAcrsVl1Mk7sDAtjT20LBJ8eYBszYZjaMWXgRqUJKI35cMZ91-RssaleCgUJSxaMzHYDQ'
-				    },
-				success: function (res) {
-					console.log(res)
-				},
-			});*/
-    	
+    	// axios({
+	    // 	url: 'http://qa.51jianji.com:10001/api/invoices',
+	    // 	menthod: 'GET',
+	    // 	headers: {
+	    // 		'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODQwMTU3MTc2NyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE1MDEzOTczMTd9.qp7wxWMpguDyGf6acDAcrsVl1Mk7sDAtjT20LBJ8eYBszYZjaMWXgRqUJKI35cMZ91-RssaleCgUJSxaMzHYDQ'
+	    // 	}
+	    // }).then((res) => {
+    	// 	console.log(res)
+    	// });
+    	//
+    	// 用js模拟后端数据格式，
+    	this.items = mockData;
+    	http.get('/api/invoices').then((res) => {
+    		// 请求接口成功回调函数
+    		// 正式数据在这里获取
+    		console.log(res);
+    		this.items = res.data;
+    	}, (e) => {
+    		console.error(e);
+    	});
     }
 
-  }
+}
 </script>
 <style scoped lang='less'>
 .msg{
