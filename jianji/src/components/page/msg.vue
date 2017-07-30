@@ -228,9 +228,14 @@
 		
 
 	</table>
-    
-    
-<script>   
+    </div>
+ 
+  </div>
+</template>
+
+<script>
+
+   
 import axios from 'axios';
 //import http from '../../assets/js/http.js';
   export default {
@@ -275,7 +280,7 @@ import axios from 'axios';
 				success: function (res) {
 					console.log(res)
 				},
-			});
+			});*/
     	
     }
 
