@@ -54,7 +54,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">   
+<style scoped lang="less">
+.onclick{
+    position:fixed;
+    top:0;
+    left:0;
+}   
     .el-icon-date{
     	color:#fff;
     	font-size:50px;
