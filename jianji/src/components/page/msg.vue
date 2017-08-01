@@ -60,10 +60,10 @@
         <p><span>备注</span></p>
       </div>
       <div class="ax_default text_area">
-        <textarea v-model="billData.备注" placeholder="备注" style="color: rgb(153, 153, 153);width:350px"></textarea>
+        <textarea v-model="billData.remark" placeholder="备注" style="color: rgb(153, 153, 153);width:350px"></textarea>
       </div>
       <div class="button" style="text-align: right;">
-        <button class="but1" @click="setTicket(i)">确定</button>
+        <button class="but1" @click="setTicket">确定</button>
   	    <button class="but2" @click="visible2 = false">取消</button>   
   		</div>
       <div class="mssge">
@@ -187,19 +187,21 @@ export default {
       billClick (i) {
         if (!this.items) {return false;}
         this.selectItem = this.items[i];
+        this.selectItem.index = i;
       },
       setTicket () {
         http.put('/api/invoices' + this.selectItem.id,
           data: {
             id: this.selectItem.id,
-            invoiceNumber: this.billData.invoiceNumber
+            invoiceNumber: this.billData.invoiceNumber,
+            remark: this.billData.remark
           }
         ).then((res) => {
           // 请求接口成功回调函数
           // 正式数据在这里获取
+          this.items.splice(this.selectItem.index, 1, res);
           this.selectItem = {};
           this.billData = {};
-          this.items.splice(i, 1, res);
         }, (e) => {
           console.error(e);
         });
