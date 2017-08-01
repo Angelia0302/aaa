@@ -5,115 +5,114 @@
 		<button class="el-button el-button--primary" type="primary">搜索</button>
 
 	</div>
-    <div class="right">
-    	
-	<table class="table_th" border="0" cellspacing="0" align="center" v-if="infous">
-		<thead>
-			<tr>
-				<th class="cell"  bgcolor="#20a0ff" v-for='info in infous'>{{info.th}}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for='main in items'>
-				<td colspan="0" border="1">{{main.id}}</td>
-				<td colspan="0" border="1">
-					<span>开票</span>
-					<span>修改</span>
-					<span>红票</span>
-					<span>删除</span>
-				</td>
-				<td colspan="0" border="1">{{main.created_date}}</td>
-				<td colspan="0" border="1">{{main.last_modified_date}}</td>
-				<td colspan="0" border="1">{{main.invoiceTitle}}</td>
-				<td colspan="0" border="1">{{main.companyId}}</td>
-				<td colspan="0" border="1">{{main.moneyAmount}}</td>
-				<td colspan="0" border="1">{{main.email}}</td>
-				<td colspan="0" border="1">{{main.contact}}</td>
-				<td colspan="0" border="1">{{main.mobile}}</td>
-				<td colspan="0" border="1">{{main.last_modified_date}}</td>
-				<td colspan="0" border="1">{{main.invoiceTitle}}</td>
-				<td colspan="0" border="1">{{main.companyId}}</td>
-				<td colspan="0" border="1">123154645123154645</td>
-				<td colspan="0" border="1">16514564</td>
-				<td colspan="0" border="1">25145614</td>	
-			</tr>
-		</tbody>
-		
-
-	</table>
-	<!-- 开票 -->
-	<form class="from_p" width="500px" v-show='flage'>
-		<div id="lab" class="ax_default label">
-                    <div class="text">
-                      <p><span>发票号</span></p>
-                    </div>
+  <div class="right">
+  	<table class="table_th" border="0" cellspacing="0" align="center" v-if="infous">
+  		<thead>
+  			<tr>
+  				<th class="cell"  bgcolor="#20a0ff" v-for='info in infous'>{{info.th}}</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			<tr v-for='(main, i) in items'>
+  				<td colspan="0" border="1">{{main.id}}</td>
+  				<td colspan="0" border="1">
+  					<span @click.stop="billClick(i, main.id)">开票</span>
+  					<span @click.stop="updateClick">修改</span>
+  					<span @click.stop="redClick">红票</span>
+  					<span @click.stop="delClick">删除</span>
+  				</td>
+  				<td colspan="0" border="1">{{main.created_date}}</td>
+  				<td colspan="0" border="1">{{main.last_modified_date}}</td>
+  				<td colspan="0" border="1">{{main.invoiceTitle}}</td>
+  				<td colspan="0" border="1">{{main.companyId}}</td>
+  				<td colspan="0" border="1">{{main.moneyAmount}}</td>
+  				<td colspan="0" border="1">{{main.email}}</td>
+  				<td colspan="0" border="1">{{main.contact}}</td>
+  				<td colspan="0" border="1">{{main.mobile}}</td>
+  				<td colspan="0" border="1">{{main.last_modified_date}}</td>
+  				<td colspan="0" border="1">{{main.invoiceTitle}}</td>
+  				<td colspan="0" border="1">{{main.companyId}}</td>
+  				<td colspan="0" border="1">123154645123154645</td>
+  				<td colspan="0" border="1">16514564</td>
+  				<td colspan="0" border="1">25145614</td>	
+  			</tr>
+  		</tbody>
+  	</table>
+  	<!-- 开票 -->
+  	<form class="from_p" width="500px" v-show='tickeInfoShow'>
+  		<div id="lab" class="ax_default label">
+        <div class="text">
+          <p><span>发票号</span></p>
         </div>
-		<div class="ax_default text_field">
-              <input id="u_input" type="text" value="自动带入" style="color: rgb(153, 153, 153);">
-         </div>
-         <div id="rigt" class="ax_default label">
-                    <div class="text">
-                      <p><span>重开关联号</span></p>
-                    </div>
+      </div>
+  		<div class="ax_default text_field">
+        <input id="u_input" type="text" v-model="billData.invoiceNumber" placeholder="发票号" style="color: rgb(153, 153, 153);">
+      </div>
+      <div id="rigt" class="ax_default label">
+        <div class="text">
+          <p><span>重开关联号</span></p>
         </div>
-		<div class="text_fie">
-              <input id="input_b" type="text" value="输入后匹配检索效验" style="color: rgb(153, 153, 153);">
-         </div>
-         <div class="ax_default label beizhu">
-                      <p><span>备注</span></p>
-                  </div>
-         <div class="ax_default text_area">
-                    <textarea style="color: rgb(153, 153, 153);width:350px"></textarea>
-         </div>
-         <div class="button" style="text-align: right;">
-			<button class="but1" @click="visible2 = false">确定</button>
-		    <button class="but2" @click="visible2 = false">取消</button>
-		    
-		  </div>
-		  <div class="mssge">
-		  	<label class="label_bot">
-		  		公司名称
-		  	</label>
-		  	<input type="text" value="自动带入" style="color: rgb(153, 153, 153);width:350px;height:15px">
-		  </div><div class="mssge">
-		  	<label class="label_bot">
-		  		纳税人号
-		  	</label>
-		  	<input type="text" value="自动带入" style="color: rgb(153, 153, 153);width:350px;height:15px">
-		  </div><div class="mssge">
-		  	<label class="label_bot">
-		  		开票金额
-		  	</label>
-		  	<input type="text" value="自动带入" style="color: rgb(153, 153, 153);width:350px;height:15px">
-		  </div><div class="mssge">
-		  	<label class="label_bot">
-		  		邮箱
-		  	</label>
-		  	<input type="text" value="自动带入" style="color: rgb(153, 153, 153);width:350px;height:15px">
-		  </div><div class="mssge">
-		  	<label class="label_bot">
-		  		联系人
-		  	</label>
-		  	<input type="text" value="自动带入" style="color: rgb(153, 153, 153);width:350px;height:15px">
-		  </div><div class="mssge">
-		  	<label class="label_bot">
-		  		联系电话
-		  	</label>
-		  	<input type="text" value="自动带入" style="color: rgb(153, 153, 153);width:350px;height:15px">
-		  </div>
-	</form>
-		<!-- 删除弹框 -->
-		<div class="delt" v-show='flage'>
-			<p style="color:red">确定删除吗？</p>
-			<div class="button" style="text-align: right;">
-			<button class="but1" @click="visible2 = false">确定</button>
-		    <button class="but2" @click="visible2 = false">取消</button>
-		    
-		  </div>
-		</div>
+      </div>
+  		<div class="text_fie">
+        <input id="input_b" type="text" v-model="billData.输入后匹配检索效验" placeholder="输入后匹配检索效验" style="color: rgb(153, 153, 153);">
+      </div>
+      <div class="ax_default label beizhu">
+        <p><span>备注</span></p>
+      </div>
+      <div class="ax_default text_area">
+        <textarea v-model="billData.备注" placeholder="备注" style="color: rgb(153, 153, 153);width:350px"></textarea>
+      </div>
+      <div class="button" style="text-align: right;">
+        <button class="but1" @click="setTicket(i)">确定</button>
+  	    <button class="but2" @click="visible2 = false">取消</button>   
+  		</div>
+      <div class="mssge">
+      	<label class="label_bot">
+      		公司名称
+      	</label>
+      	<input type="text" readonly v-model="selectItem.公司名称" style="color: rgb(153, 153, 153);width:350px;height:15px">
+      </div>
+      <div class="mssge">
+      	<label class="label_bot">
+      		纳税人号
+      	</label>
+      	<input type="text" readonly v-model="selectItem.纳税人号" style="color: rgb(153, 153, 153);width:350px;height:15px">
+      </div>
+      <div class="mssge">
+      	<label class="label_bot">
+      		开票金额
+      	</label>
+      	<input type="text" readonly v-model="selectItem.开票金额" style="color: rgb(153, 153, 153);width:350px;height:15px">
+      </div>
+      <div class="mssge">
+      	<label class="label_bot">
+      		邮箱
+      	</label>
+      	<input type="text" readonly v-model="selectItem.邮箱" style="color: rgb(153, 153, 153);width:350px;height:15px">
+      </div>
+      <div class="mssge">
+      	<label class="label_bot">
+      		联系人
+      	</label>
+      	<input type="text" readonly v-model="selectItem.联系人" style="color: rgb(153, 153, 153);width:350px;height:15px">
+      </div>
+      <div class="mssge">
+      	<label class="label_bot">
+      		联系电话
+      	</label>
+      	<input type="text" readonly v-model="selectItem.联系电话" style="color: rgb(153, 153, 153);width:350px;height:15px">
+      </div>
+  	</form>
+    <!-- 删除弹框 -->
+    <div class="delt" v-show='delShow'>
+    	<p style="color:red">确定删除吗？</p>
+    	<div class="button" style="text-align: right;">
+        <button class="but1" @click="visible2 = false">确定</button>
+        <button class="but2" @click="visible2 = false">取消</button>		    
+      </div>
     </div>
- 
   </div>
+</div>
 </template>
 
 <script>
@@ -128,6 +127,14 @@ export default {
        input:'',
        items: '',
        flage:false,
+       // 开票弹框
+       tickeInfoShow: false,
+       // 删除弹框
+       delShow: false,
+       // 选中的数据
+       selectItem: {},
+       // 填写开票的信息
+       billData: {},
        infous:[
        		{th:'序号'},
        		{th:'操作'},
@@ -175,9 +182,30 @@ export default {
     	}, (e) => {
     		console.error(e);
     	});
+    },
+    methods: {
+      billClick (i) {
+        if (!this.items) {return false;}
+        this.selectItem = this.items[i];
+      },
+      setTicket () {
+        http.put('/api/invoices' + this.selectItem.id,
+          data: {
+            id: this.selectItem.id,
+            invoiceNumber: this.billData.invoiceNumber
+          }
+        ).then((res) => {
+          // 请求接口成功回调函数
+          // 正式数据在这里获取
+          this.selectItem = {};
+          this.billData = {};
+          this.items.splice(i, 1, res);
+        }, (e) => {
+          console.error(e);
+        });
+      }
     }
-
-}
+};
 </script>
 <style scoped lang='less'>
 .msg{
