@@ -6,6 +6,7 @@
 
 	</div>
   <div class="right">
+  <!-- 列表 -->
   	<table class="table_th" border="0" cellspacing="0" align="center" v-if="infous">
   		<thead>
   			<tr>
@@ -72,31 +73,31 @@
         <label>
           提交日期
         </label>
-        <input type="date" v-model="selectItem.提交日期" style="color: rgb(153, 153, 153);"/>
+        <input type="date" readonly v-model="selectItem.提交日期" style="color: rgb(153, 153, 153);"/>
       </p>
       <p class="date">
         <label>
           开票日期
         </label>
-        <input type="date"  v-model="selectItem.开票日期" style="color: rgb(153, 153, 153)">
+        <input type="date" readonly  v-model="selectItem.开票日期" style="color: rgb(153, 153, 153)">
       </p>
         </div>
       <div class="from_inp">
         <label>
           公司名称
         </label>
-        <input type="text" v-model="selectItem.公司名称" placeholder="">  
+        <input type="text" readonly v-model="selectItem.公司名称" placeholder="">  
       </div><div class="from_inp">
         <label>
           纳税人号
         </label>
-        <input type="text" v-model="selectItem.联系电话" placeholder="">  
+        <input type="text" readonly v-model="selectItem.联系电话" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           开票金额
         </label>
-        <input type="text" v-model="selectItem.开票金额" placeholder="">  
+        <input type="text" readonly v-model="selectItem.开票金额" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
@@ -152,31 +153,31 @@
         <label>
           提交日期
         </label>
-        <input type="date" v-model="selectItem.提交日期" style="color: rgb(153, 153, 153);"/>
+        <input type="date" readonly v-model="selectItem.提交日期" style="color: rgb(153, 153, 153);"/>
       </p>
       <p class="date">
         <label>
           开票日期
         </label>
-        <input type="date"  v-model="selectItem.开票日期" style="color: rgb(153, 153, 153)">
+        <input type="date" readonly  v-model="selectItem.开票日期" style="color: rgb(153, 153, 153)">
       </p>
         </div>
       <div class="from_inp">
         <label>
           公司名称
         </label>
-        <input type="text" v-model="selectItem.公司名称" placeholder="">  
+        <input type="text" readonly v-model="selectItem.公司名称" placeholder="">  
       </div><div class="from_inp">
         <label>
           纳税人号
         </label>
-        <input type="text" v-model="selectItem.联系电话" placeholder="">  
+        <input type="text" readonly v-model="selectItem.联系电话" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           开票金额
         </label>
-        <input type="text" v-model="selectItem.开票金额" placeholder="">  
+        <input type="text" readonly v-model="selectItem.开票金额" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
@@ -210,7 +211,7 @@
           <label>
             原发票号
           </label>
-          <input type="text" v-model="redNumber.原发票号">
+          <input type="text" readonly v-model="redNumber.原发票号">
         </p>
         <div class="button" style="text-align: center;">
         <button class="but1" @click="visible2 = false">确定</button>
@@ -218,7 +219,7 @@
       </div>
     </div>
     <!-- 删除弹框 -->
-    <div class="delt" v-show='delShow'>
+    <div class="delt" v-show=''>
     	<p style="color:red">确定删除吗？</p>
     	<div class="button" style="text-align: right;">
         <button class="but1" @click="visible2 = false">确定</button>
@@ -248,11 +249,12 @@ export default {
        // 删除弹框
        delShow: false,
        // 红票弹框
-       redTrcked:false,
+       redShow:false,
        // 选中的数据
        selectItem: {},
        // 填写开票的信息
        billData: {},
+       redNumber:{},
        infous:[
        		{th:'序号'},
        		{th:'操作'},
@@ -351,8 +353,12 @@ export default {
         });
       },
       // 红票
-      redClick(){
-        http.put()
+      redClick(i){
+        http.put('/api/invoices/' + this)
+      },
+      // 删除
+      delClick(){
+
       }
  
     }
