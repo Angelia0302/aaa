@@ -22,20 +22,20 @@
   					<span @click.stop="redClick(i, main.id)">红票</span>
   					<span @click.stop="delClick(i, main.id)">删除</span>
   				</td>
-  				<td colspan="0" border="1">{{main.created_date}}</td>
-  				<td colspan="0" border="1">{{main.last_modified_date}}</td>
-  				<td colspan="0" border="1">{{main.invoiceTitle}}</td>
-  				<td colspan="0" border="1">{{main.companyId}}</td>
+  				<td colspan="0" border="1">{{main.createdDate}}</td>
+  				<td colspan="0" border="1">{{main.status}}</td>
+  				<td colspan="0" border="1">{{main.lastModifiedDate}}</td>
+  				<td colspan="0" border="1">{{main.companyName}}</td>
+  				<td colspan="0" border="1">{{main.taxpayerIdentifyNumber}}</td>
   				<td colspan="0" border="1">{{main.moneyAmount}}</td>
   				<td colspan="0" border="1">{{main.email}}</td>
   				<td colspan="0" border="1">{{main.contact}}</td>
   				<td colspan="0" border="1">{{main.mobile}}</td>
-  				<td colspan="0" border="1">{{main.last_modified_date}}</td>
-  				<td colspan="0" border="1">{{main.invoiceTitle}}</td>
-  				<td colspan="0" border="1">{{main.companyId}}</td>
-  				<td colspan="0" border="1">123154645123154645</td>
-  				<td colspan="0" border="1">16514564</td>
-  				<td colspan="0" border="1">25145614</td>	
+  				<td colspan="0" border="1">{{main.invoiceNumber}}</td>
+          <td colspan="0" border="1">{{main.relationInvoiceNumber}}</td>
+  				<td colspan="0" border="1">{{main.redInvoiceNumber}}</td>
+          <td colspan="0" border="1">{{main.重开原因}}</td>
+  				<td colspan="0" border="1">{{main.info}}</td>	
   			</tr>
   		</tbody>
   	</table>
@@ -52,7 +52,7 @@
         <label>
           重开关联票号
         </label>
-        <input type="text" v-model="billData.输入后匹配检索效验" placeholder="输入后匹配检索效验" >
+        <input type="text" v-model="billData.relationInvoiceNumber" placeholder="输入后匹配检索效验" >
       </p>
         
       </div>
@@ -60,10 +60,10 @@
         <label>
           备注
         </label>
-        <textarea name="" v-model="billData.remark" placeholder="备注" id="textar" cols="50" rows="4"></textarea>
+        <textarea name="" v-model="billData.info" placeholder="备注" id="textar" cols="50" rows="4"></textarea>
       </div>
       <div class="button" style="text-align: right;">
-      <button class="but1" @click="setTicket">确定</button>
+      <button class="but1" @click="setTicket">开票</button>
         <button class="but2" @click="visible2 = false">取消</button>
         
       </div>
@@ -73,49 +73,49 @@
         <label>
           提交日期
         </label>
-        <input type="date" readonly v-model="selectItem.提交日期" style="color: rgb(153, 153, 153);"/>
+        <input type="text" readonly v-model="selectItem.createdDate" style="color: rgb(153, 153, 153);"/>
       </p>
       <p class="date">
         <label>
           开票日期
         </label>
-        <input type="date" readonly  v-model="selectItem.开票日期" style="color: rgb(153, 153, 153)">
+        <input type="text" readonly  v-model="selectItem.lastModifiedDate" style="color: rgb(153, 153, 153)">
       </p>
         </div>
       <div class="from_inp">
         <label>
           公司名称
         </label>
-        <input type="text" readonly v-model="selectItem.公司名称" placeholder="">  
+        <input type="text" readonly v-model="selectItem.companyName" placeholder="">  
       </div><div class="from_inp">
         <label>
           纳税人号
         </label>
-        <input type="text" readonly v-model="selectItem.联系电话" placeholder="">  
+        <input type="text" readonly v-model="selectItem.taxpayerIdentifyNumber" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           开票金额
         </label>
-        <input type="text" readonly v-model="selectItem.开票金额" placeholder="">  
+        <input type="text" readonly v-model="selectItem.moneyAmount" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           邮箱
         </label>
-        <input type="text" v-model="selectItem.邮箱" placeholder="">  
+        <input type="text" v-model="selectItem.email" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           联系人
         </label>
-        <input type="text" v-model="selectItem.联系人" placeholder="">  
+        <input type="text" v-model="selectItem.contact" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           联系电话
         </label>
-        <input type="text" readonly v-model="selectItem.联系电话" placeholder="">  
+        <input type="text" readonly v-model="selectItem.mobile" placeholder="">  
       </div>
       </div>
     </form>
@@ -132,7 +132,7 @@
         <label>
           重开关联票号
         </label>
-        <input type="text" v-model="billData.输入后匹配检索效验" placeholder="输入后匹配检索效验" >
+        <input type="text" v-model="billData.relationInvoiceNumber" placeholder="输入后匹配检索效验" >
       </p>
         
       </div>
@@ -140,10 +140,10 @@
         <label>
           备注
         </label>
-        <textarea name="" v-model="billData.remark" placeholder="备注" id="textar" cols="50" rows="4"></textarea>
+        <textarea name="" v-model="billData.info" placeholder="备注" id="textar" cols="50" rows="4"></textarea>
       </div>
       <div class="button" style="text-align: right;">
-      <button class="but1" @click="setTicket">确定</button>
+      <button class="but1" @click="setTicket">保存</button>
         <button class="but2" @click="visible2 = false">取消</button>
         
       </div>
@@ -153,49 +153,49 @@
         <label>
           提交日期
         </label>
-        <input type="date" readonly v-model="selectItem.提交日期" style="color: rgb(153, 153, 153);"/>
+        <input type="date" readonly v-model="selectItem.createdDate" style="color: rgb(153, 153, 153);"/>
       </p>
       <p class="date">
         <label>
           开票日期
         </label>
-        <input type="date" readonly  v-model="selectItem.开票日期" style="color: rgb(153, 153, 153)">
+        <input type="date" readonly  v-model="selectItem.lastModifiedDate" style="color: rgb(153, 153, 153)">
       </p>
         </div>
       <div class="from_inp">
         <label>
           公司名称
         </label>
-        <input type="text" readonly v-model="selectItem.公司名称" placeholder="">  
+        <input type="text" readonly v-model="selectItem.companyName" placeholder="">  
       </div><div class="from_inp">
         <label>
           纳税人号
         </label>
-        <input type="text" readonly v-model="selectItem.联系电话" placeholder="">  
+        <input type="text" readonly v-model="selectItem.taxpayerIdentifyNumber" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           开票金额
         </label>
-        <input type="text" readonly v-model="selectItem.开票金额" placeholder="">  
+        <input type="text" readonly v-model="selectItem.moneyAmount" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           邮箱
         </label>
-        <input type="text" v-model="selectItem.邮箱" placeholder="">  
+        <input type="text" v-model="selectItem.email" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           联系人
         </label>
-        <input type="text" v-model="selectItem.联系人" placeholder="">  
+        <input type="text" v-model="selectItem.contact" placeholder="">  
       </div>
       <div class="from_inp">
         <label>
           联系电话
         </label>
-        <input type="text" readonly v-model="selectItem.联系电话" placeholder="">  
+        <input type="text" readonly v-model="selectItem.mobile" placeholder="">  
       </div>
       </div>
     </form>
@@ -205,13 +205,13 @@
           <label>
             红票发票号
           </label>
-          <input type="text" v-model="redNumber.红票发票号">
+          <input type="text" v-model="redNumber.redInvoiceNumber">
         </p>
         <p>
           <label>
             原发票号
           </label>
-          <input type="text" readonly v-model="redNumber.原发票号">
+          <input type="text" readonly v-model="redNumber.invoiceNumber">
         </p>
         <div class="button" style="text-align: center;">
         <button class="but1" @click="visible2 = false">确定</button>
@@ -326,32 +326,6 @@ export default {
           console.error(e);
         });
       },
-      // 修改
-      updateClick (i) {
-        if (!this.items) {return false;}
-        this.selectItem = this.items[i];
-        this.selectItem.index = i;
-         this.modifyShow = true;
-      },
-      setTicket () {
-        http.put('/api/invoices/' + this.selectItem.id,{
-        data:{
-                  id: this.selectItem.id,
-                  invoiceNumber: this.billData.invoiceNumber,
-                  remark: this.billData.remark
-                }
-              }
-        ).then((res) => {
-          // 请求接口成功回调函数
-          // 正式数据在这里获取
-          this.items.splice(this.selectItem.index, 1, res);
-          this.selectItem = {};
-          this.billData = {};
-           this.modifyShow = false;
-        }, (e) => {
-          console.error(e);
-        });
-      },
       // 红票
       redClick(i){
         http.put('/api/invoices/' + this)
@@ -376,7 +350,7 @@ export default {
 	position: absolute;
 	top:70px;
 	left:180px;
-	width:100%;
+	width:108%;
 	overflow-x: auto;
 }
 
