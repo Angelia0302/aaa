@@ -211,16 +211,16 @@
                 <label>
                     红票发票号
                 </label>
-                <input type="text" v-model="redNumber.redInvoiceNumber">
+                <input type="text" v-model="selectItem.redInvoiceNumber">
             </p>
             <p>
                 <label>
                     原发票号
                 </label>
-                <input type="text" readonly v-model="redNumber.invoiceNumber">
+                <input type="text" readonly v-model="selectItem.invoiceNumber">
             </p>
             <div class="button" style="text-align: center;">
-                <button class="but1" @click="visible2 = false">确定</button>
+                <button class="but1" @click="updateTicket">确定</button>
                 <button class="but2" @click="close('redShow')">取消</button>
             </div>
         </div>
