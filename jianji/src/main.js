@@ -13,6 +13,12 @@ Vue.prototype.http = http;
 
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
+
+/*
+ * import mixin
+ * */
+import vueMixin from './mixin/vueMixin';
+vueMixin();
 new Vue({
     router,
     render: h => h(App)

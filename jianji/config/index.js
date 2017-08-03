@@ -24,7 +24,7 @@ module.exports = {
 	dev: {
 		env: require('./dev.env'),
 		port: 80,
-		publicPath: 'front-local.verystar.cn', // 本地调试域名 --- location.host --- 自定义
+		publicPath: 'fe.51jianji.cn', // 本地调试域名 --- location.host --- 自定义
 		prjPath: '/stu/aaa/', // 本地调试路径-- 绝对路径 --- location.path --- 自定义
 		prjPathRela: 'stu/aaa/', // 本地调试路径-- 相对路径 --- location.path --- 自定义
 		autoOpenBrowser: true,

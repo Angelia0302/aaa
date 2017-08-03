@@ -46,20 +46,20 @@
                     <label>
                         发票号
                     </label>
-                    <input type="text" v-model="billData.invoiceNumber" placeholder="发票号">
+                    <input type="text" v-model="selectItem.invoiceNumber" placeholder="发票号">
                 </p>
                 <p>
                     <label>
                         重开关联票号
                     </label>
-                    <input type="text" v-model="billData.relationInvoiceNumber" placeholder="输入后匹配检索效验">
+                    <input type="text" v-model="selectItem.relationInvoiceNumber" placeholder="输入后匹配检索效验">
                 </p>
             </div>
             <div class="textear">
                 <label>
                     备注
                 </label>
-                <textarea class="textar" name="" v-model="billData.info" placeholder="备注" id="textar" cols="50"
+                <textarea class="textar" name="" v-model="selectItem.info" placeholder="备注" id="textar" cols="50"
                           rows="4"></textarea>
             </div>
             <div class="button" style="text-align: right;">
@@ -128,13 +128,13 @@
                     <label>
                         发票号
                     </label>
-                    <input type="text" v-model="billData.invoiceNumber" placeholder="发票号">
+                    <input type="text" v-model="selectItem.invoiceNumber" placeholder="发票号">
                 </p>
                 <p>
                     <label>
                         重开关联票号
                     </label>
-                    <input type="text" v-model="billData.relationInvoiceNumber" placeholder="输入后匹配检索效验">
+                    <input type="text" v-model="selectItem.relationInvoiceNumber" placeholder="输入后匹配检索效验">
                 </p>
 
             </div>
@@ -142,11 +142,11 @@
                 <label>
                     备注
                 </label>
-                <textarea name="" v-model="billData.info" placeholder="备注" id="textar" cols="50"
+                <textarea name="" v-model="selectItem.info" placeholder="备注" id="textar" cols="50"
                           rows="4"></textarea>
             </div>
             <div class="button" style="text-align: right;">
-                <button class="but1" @click="setTicket">保存</button>
+                <button class="but1" @click="updateTicket">保存</button>
                 <button class="but2" @click="close('modifyShow')">取消</button>
 
             </div>
@@ -228,7 +228,7 @@
         <div class="delt" v-show='alertType.deltShow'>
             <p style="color:red">确定删除吗？</p>
             <div class="button" style="text-align: right;">
-                <button class="but1" @click="visible2 = false">确定</button>
+                <button class="but1" @click="delCom">确定</button>
                 <button class="but2" @click="close('deltShow')">取消</button>
             </div>
         </div>
@@ -292,6 +292,7 @@
                 this.items = res.data;
             }, (e) => {
                 console.error(e);
+                this.showInfoAlert('失败');
             });
         },
         methods: {
@@ -309,21 +310,25 @@
                 this.showModal('setTicket');
             },
             updateTicket () {
+                delete this.selectItem.index;
+                this.showLoading();
                 http.put('/api/invoices/' + this.selectItem.id, {
-                    data: {
-                        id: this.selectItem.id,
-                        invoiceNumber: this.billData.invoiceNumber,
-                        remark: this.billData.remark
-                    }
+                    data: this.selectItem
                 }).then((res) => {
+                    this.hideLoading();
+                    this.showSuccess();
+                    setTimeout(() => {
+                        this.hideSuccess();
+                    }, 200);
                     // 请求接口成功回调函数
                     // 正式数据在这里获取
                     this.items.splice(this.selectItem.index, 1, res);
                     this.selectItem = {};
-                    this.billData = {};
                     this.close('setTicket');
                 }, (e) => {
+                    this.hideLoading();
                     console.error(e);
+                    this.showInfoAlert('失败');
                 });
             },
             updateClick (i) {
@@ -339,6 +344,23 @@
             delClick (i) {
                 this.getSelected(i);
                 this.showModal('deltShow');
+            },
+            delCom () {
+                this.showLoading();
+                http.delete('/api/invoices/' + this.selectItem.id).then((res) => {
+                    // 请求接口成功回调函数
+                    // 正式数据在这里获取
+                    this.hideLoading();
+                    this.showSuccess();
+                    setTimeout(() => {
+                        this.hideSuccess('删除成功！');
+                    }, 200);
+                    this.items.splice(this.selectItem.index, 1);
+                }, (e) => {
+                    this.hideLoading();
+                    this.showInfoAlert('失败');
+                    console.error(e);
+                });
             },
             // show modal
             showModal (type) {
