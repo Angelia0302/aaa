@@ -10,7 +10,7 @@
 
 <script>
     import vHead from './Head.vue';
-    import vOnclick from './Onclick.vue';
+    import vOnclick from './Menu.vue';
     export default {
         components:{
             vHead, vOnclick

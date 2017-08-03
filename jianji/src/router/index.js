@@ -6,21 +6,18 @@ import msg from '@/components/page/msg'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      component: Main,
-      children:[
-      {path:'',redirect:'msg'},
-      {
-      	path:'msg',
-      	name:'msg',
-      	component: msg
-      },
-      
-      ]
-    }, 
-    
-
-   ]
+    routes: [
+        {
+            path: '/',
+            component: Main,
+            children: [
+                {path: '', redirect: 'msg'},
+                {
+                    path: 'msg',
+                    name: 'msg',
+                    component: msg
+                }
+            ]
+        }
+    ]
 })

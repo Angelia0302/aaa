@@ -1,21 +1,41 @@
-# jianji
+##Vue项目目录模板
+----------------------------
+author: Gary.zhou
 
-> A Vue.js project
+<br>
+###配置说明：
+<br>
+####1. ./config/index.js<br>
+module.exports.build.assetsPublicPath -- 更改为本人的项目path <br>
+module.exports.dev.publicPath -- 更改为本人的项目本地调试domain <br>
+module.exports.dev.apiPre -- 更改为本人的项目path <br>
+module.exports.dev.proxyTable -- 接口代理转发,按需要更改 <br>
+<br>
+####2. ./docs --- 项目文档<br>
+|--api.md --- 更改为本人接口文档
 
-## Build Setup
+####3. ./mock --- 模拟数据
+./mock/mockData --- 模拟接口数据
 
-``` bash
-# install dependencies
-npm install
+域名
+====
+dev: <br>
+staging: <br>
+prod: <br>
 
-# serve with hot reload at localhost:8080
-npm run dev
+开发
+====
+Appid：<br>
+webpack build的域名前缀： 
 
-# build for production with minification
-npm run build
+路由
+====
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+1.会员首页
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+* /index
+* component: index
+
+接口
+====
+[接口文档](./docs/api.md)

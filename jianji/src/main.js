@@ -8,7 +8,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';    // 默认主题
 import axiosset from './assets/js/axiosseting.js';
 import http from './assets/js/http.js';
-import './assets/js/jquery-1.11.2.min.js'
 
 Vue.prototype.http = http;
 
