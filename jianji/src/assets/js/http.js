@@ -1,9 +1,9 @@
 import axios from 'axios';
-const baseURL = 'http://qa.51jianji.com:10001';
+const baseURL = 'http://192.168.8.177:4210';
 var http = axios.create({
     baseURL: baseURL,
     headers: {
-    	'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODQwMTU3MTc2NyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE1MDE1NTgzODN9.0jpKqEb_ZOEXXwLi26ypuIt1EApqLKdo0z8ciliC3P9nQ52WBcN-TAHYrGbI773msdCbwdeT20VyYaE2mlf43A'
+    	'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODQwMTU3MTc2NyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE1MDE4NDc5Njd9.uUklDBnznwClxt9k90vrogGyUEGZRHncXlgx_W5F4CijzKEqucjnGSlcaiH9rFtLU2iYAfUTtin5rBlgiWqpoQ'
     }
 });
 // http.defaults.headers.common["Authorization"] = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxODQwMTU3MTc2NyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE1MDEzOTczMTd9.qp7wxWMpguDyGf6acDAcrsVl1Mk7sDAtjT20LBJ8eYBszYZjaMWXgRqUJKI35cMZ91-RssaleCgUJSxaMzHYDQ'

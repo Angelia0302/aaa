@@ -23,8 +23,8 @@ module.exports = {
 	},
 	dev: {
 		env: require('./dev.env'),
-		port: 80,
-		publicPath: 'fe.51jianji.com', // 本地调试域名 --- location.host --- 自定义
+		port: 8080,
+		publicPath: 'http://192.168.8.177:4210', // 本地调试域名 --- location.host --- 自定义
 		prjPath: '/stu/aaa/', // 本地调试路径-- 绝对路径 --- location.path --- 自定义
 		prjPathRela: 'stu/aaa/', // 本地调试路径-- 相对路径 --- location.path --- 自定义
 		autoOpenBrowser: true,

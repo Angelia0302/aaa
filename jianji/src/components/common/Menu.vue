@@ -52,9 +52,10 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 110px;
+        width: 140px;
         height: 100%;
         text-align: center;
+        z-index: 1000;
     }
 
     .admin-left__menu {
@@ -66,7 +67,7 @@
 
     .el-icon-date {
         color: #fff;
-        font-size: 50px;
+        font-size: 60px;
         padding: 20px 0;
     }
 
@@ -76,9 +77,9 @@
     }
 
     .el-menu-item {
-        height: 30px;
+        height: 40px;
         color: #fff;
-        line-height: 30px;
+        line-height: 40px;
         &:hover {
              color: #999;
              background: #fff;

@@ -2,7 +2,7 @@
     <div class="msg">
         <div class="msg_top">
             <input v-model="input" class="input_tile" placeholder="请输入关键字">
-            <button class="el-button el-button--primary" type="primary">搜索</button>
+            <button class="e-button">搜索</button>
         </div>
         <div class="right">
             <!-- 列表 -->
@@ -13,9 +13,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for='(main, i) in items'>
+                    <tr v-for='(main, i) in items' class="hover">
                         <td colspan="0" border="1">{{main.id}}</td>
-                        <td colspan="0" border="1">
+                        <td colspan="0" border="1" class="spanStyle">
                             <span @click.stop="billClick(i, main.id)">开票</span>
                             <span @click.stop="updateClick(i, main.id)">修改</span>
                             <span @click.stop="redClick(i, main.id)">红票</span>
@@ -39,8 +39,13 @@
                 </tbody>
             </table>
         </div>
+        <div class="star-overlay star-dialog-mask" v-show="maskShow"></div>
         <!-- 开票 -->
+   
         <form class="from_xiu" v-show='alertType.setTicket'>
+        <div class="modal-header">
+        <a class="close" data-dismiss="modal">
+        <font @click="close('setTicket')"><font>×</font></font></a><h3><font><font>开票 </font></font><small></small></h3></div>
             <div class="top_fa">
                 <p>
                     <label>
@@ -105,24 +110,29 @@
                     <label>
                         邮箱
                     </label>
-                    <input type="text" v-model="selectItem.email" readonly placeholder="">
+                    <input type="text" v-model="selectItem.email" placeholder="">
                 </div>
                 <div class="from_inp">
                     <label>
                         联系人
                     </label>
-                    <input type="text" v-model="selectItem.contact" readonly placeholder="">
+                    <input type="text" v-model="selectItem.contact" placeholder="">
                 </div>
                 <div class="from_inp">
                     <label>
                         联系电话
                     </label>
-                    <input type="text" readonly v-model="selectItem.mobile" placeholder="">
+                    <input type="text" v-model="selectItem.mobile" placeholder="">
                 </div>
             </div>
         </form>
+   
         <!-- 修改 -->
-        <form class="from_xiu" v-show='alertType.modifyShow'>
+    
+        <form class="from_xiu" v-show='alertType.modifyShow' transition="fade">
+            <div class="modal-header">
+        <a class="close" data-dismiss="modal">
+        <font @click="close('setTicket')"><font>×</font></font></a><h3><font><font>开票 </font></font><small></small></h3></div>
             <div class="top_fa">
                 <p>
                     <label>
@@ -150,7 +160,11 @@
                 <button class="but2" @click="close('modifyShow')">取消</button>
 
             </div>
+            
             <div class="from_tom">
+              <div class="heade">
+                
+              </div>
                 <div class="top_date">
                     <p class="date">
                         <label>
@@ -164,7 +178,7 @@
                             开票日期
                         </label>
                         <input type="date" readonly v-model="selectItem.lastModifiedDate"
-                               style="color: rgb(153, 153, 153)">
+                               >
                     </p>
                 </div>
                 <div class="from_inp">
@@ -201,12 +215,16 @@
                     <label>
                         联系电话
                     </label>
-                    <input type="text" readonly v-model="selectItem.mobile" placeholder="">
+                    <input type="text"  v-model="selectItem.mobile" placeholder="">
                 </div>
             </div>
         </form>
+   
         <!-- 红票 -->
         <div class="red_trcked" v-show="alertType.redShow">
+        <div class="modal-header">
+        <a class="close" data-dismiss="modal">
+        <font @click="close('setTicket')"><font>×</font></font></a><h3><font><font>开票 </font></font><small></small></h3></div>
             <p>
                 <label>
                     红票发票号
@@ -226,7 +244,10 @@
         </div>
         <!-- 删除弹框 -->
         <div class="delt" v-show='alertType.deltShow'>
-            <p style="color:red">确定删除吗？</p>
+        <div class="modal-header">
+        <a class="close" data-dismiss="modal">
+        <font @click="close('deltShow')"><font>×</font></font></a><h3><font><font>明确</font></font><small></small></h3></div>
+            <p>确定删除吗？</p>
             <div class="button" style="text-align: right;">
                 <button class="but1" @click="delCom">确定</button>
                 <button class="but2" @click="close('deltShow')">取消</button>
@@ -246,7 +267,7 @@
             return {
                 input: '',
                 items: '',
-                flage: false,
+                maskShow: false,
                 // 选中的数据
                 selectItem: {},
                 // 填写开票的信息
@@ -284,12 +305,12 @@
         },
         mounted () {
             // 用js模拟后端数据格式，
-            this.items = mockData;
+            // this.items = mockData;
             http.get('/api/invoices').then((res) => {
                 // 请求接口成功回调函数
                 // 正式数据在这里获取
                 console.log(res);
-                this.items = res.data;
+                this.items = res;
             }, (e) => {
                 console.error(e);
                 this.showInfoAlert('失败');
@@ -308,6 +329,8 @@
             billClick (i) {
                 this.getSelected(i);
                 this.showModal('setTicket');
+                this.maskShow = true;
+                this.color ="red";
             },
             updateTicket () {
                 delete this.selectItem.index;
@@ -334,16 +357,19 @@
             updateClick (i) {
                 this.getSelected(i);
                 this.showModal('modifyShow');
+                 this.maskShow = true;
             },
             // 红票
             redClick (i) {
                 this.getSelected(i);
                 this.showModal('redShow');
+                this.maskShow = true;
             },
             // 删除
             delClick (i) {
                 this.getSelected(i);
                 this.showModal('deltShow');
+                this.maskShow = true;
             },
             delCom () {
                 this.showLoading();
@@ -354,6 +380,8 @@
                     this.showSuccess();
                     setTimeout(() => {
                         this.hideSuccess('删除成功！');
+                        this.showModal = false;
+                        this.maskShow = false;
                     }, 200);
                     this.items.splice(this.selectItem.index, 1);
                 }, (e) => {
@@ -369,12 +397,14 @@
             // close
             close (type) {
                 this.alertType[type] = false;
+                this.maskShow = false;
             }
         }
     };
 </script>
 <style scoped lang='less' rel="stylesheet/less">
     @import '../../assets/css/msg.less';
+    @import '../../assets/css/animate.less';
 
     .msg {
         position: relative;
@@ -404,7 +434,9 @@
         border-right: 1px solid #ccc;
         margin-top: 15px;
         white-space: nowrap;
-
+        cursor: pointer;
+        
+          
         .cell,
         td {
             vertical-align: middle;
@@ -414,10 +446,30 @@
             font-size: 14px;
             color: #fff;
             border-left: 1px solid #ccc;
-            background: #20a0ff;
+            background: #50CB8D;
             padding-left: 15px;
             padding-right: 15px;
-            height: 30px;
+            height: 40px;
+            z-index: 2;
+        }
+        .spanStyle{
+          span{
+            width:20px;
+            height:15px;
+          
+            padding:5px 10px;
+            border: 1px solid #50CB8D;
+            margin:5px;
+            border-radius: 3px;
+            color: #999;
+          }
+           span:nth-child(4){
+            background: #fff;
+            color: red;
+            border: 1px solid #ccc;
+
+          }
+
         }
 
         td {
@@ -430,6 +482,10 @@
             padding-right: 10px;
         }
 
+    }
+    .hover:hover{
+      background:rgba(80,180,203,0.1);
+      z-index: 0;
     }
 
     /*
@@ -447,14 +503,28 @@
     */
 
     .from_xiu {
+       z-index: 1002;
         position: fixed;
         left: 50%;
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
         width: 480px;
         height: 500px;
-        border: 1px solid #000;
+        border-radius: 5px;
         background: #fff;
+   .modal-header {
+    padding: 9px 15px;
+    border-bottom: 1px solid #eee;
+}
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+  }
         label {
             width: 120px;
             font-size: 14px;
@@ -467,8 +537,11 @@
             justify-content: space-around;
             align-items: center;
             height: 50px;
+            transition: all .3s ease;
             input {
                 width: 130px;
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+                border-radius: 3px;
             }
         }
         .textear {
@@ -485,12 +558,14 @@
                 resize: vertical;
                 border: 1px solid #999;
                 margin-right: 16px;
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+                border-radius: 4px;
             }
         }
         .button {
             margin-top: 20px;
             margin-right: 30px;
-
+            
             .but1, .but2 {
                 display: inline-block;
                 line-height: 1;
@@ -499,12 +574,13 @@
                 border: 1px solid #c4c4c4;
                 color: #1f2d3d;
                 margin: 5px;
-                padding: 8px 10px;
-                border-radius: 5px;
+                padding: 8px 20px;
+                border-radius: 3px;
                 color: #fff;
-                background-color: #20a0ff;
+                background-color: #50CB8D;
                 border: none;
                 outline: none;
+                font-size: 13px;
             }
 
             .but2 {
@@ -513,14 +589,16 @@
         }
         .from_tom {
             padding: 10px 16px 0;
-            border-top: 1px solid #000;
+            border-top: 1px solid #8C8C8C;
             input {
                 height: 25px;
-                font-size: 14px;
-                color: rgb(153, 153, 153);
-                &[readonly] {
+                font-size: 13px;
+                padding-left: 10px;
+                /* color: rgb(153, 153, 153); */
+                border-radius: 3px;
+               /* &[readonly] {
                     background: #dadada;
-                }
+                }*/
             }
             .top_date {
                 display: flex;
@@ -539,6 +617,8 @@
                 input {
                     width: 120px;
                     text-align: center;
+                    font-size: 14px;
+                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
                 }
                 .set-time {
                     text-align: right;
@@ -562,26 +642,43 @@
 
                 input {
                     flex: 1;
+                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
                 }
             }
         }
     }
     // 删除
     .delt {
+       z-index: 1002;
         position: fixed;
         left: 50%;
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
         width: 295px;
         height: 172px;
-        border: 1px solid #000;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+.modal-header {
+    padding: 9px 15px;
+    border-bottom: 1px solid #eee;
+}
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    cursor: pointer;
+  }
         p {
-            padding-top: 20px;
+            padding-top: 40px;
             text-align: center;
-            color: red;
         }
         .button {
-            margin-top: 70px;
+            margin-top: 20px;
             margin-right: 20px;
             .but1, .but2 {
                 display: inline-block;
@@ -590,29 +687,47 @@
                 cursor: pointer;
                 border: 1px solid #c4c4c4;
                 color: #1f2d3d;
-                margin: 0;
-                padding: 8px 10px;
+                margin: 10px;
+                padding: 8px 15px;
                 color: #fff;
-                background-color: #20a0ff;
+                background-color: #50CB8D;
+                border-radius: 3px;
                 border: none;
                 outline: none;
             }
             .but2 {
                 background: #999;
             }
+            .button:hover{
+              border: 1px solid #000;
+            }
         }
     }
     // 红票
     .red_trcked {
+       z-index: 1002;
         position: fixed;
         left: 50%;
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
         width: 300px;
-        height: 170px;
-        border: 1px solid #000;
+        height: 180px;
+        border-radius: 3px;
         background: #fff;
-        padding: 20px 10px 0;
+        padding: 8px 10px 0;
+         .modal-header {
+    padding: 9px 10px;
+    border-bottom: 1px solid #ccc;
+}
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 15px;
+    color: #000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+  }
         p {
             display: flex;
             justify-content: center;
@@ -623,9 +738,15 @@
             display: block;
             text-align: left;
             font-size: 14px;
+             margin-top: 15px;
         }
+        input{
+             margin-top: 10px;
+              box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+              border-radius: 3px;
+           }
         .button {
-            margin-top: 35px;
+          margin-top: 10px;
             .but1, .but2 {
                 display: inline-block;
                 line-height: 1;
@@ -633,18 +754,35 @@
                 cursor: pointer;
                 border: 1px solid #c4c4c4;
                 color: #1f2d3d;
-                margin: 5px;
-                padding: 8px 10px;
-                border-radius: 5px;
+                margin: 8px;
+                padding: 8px 15px;
+                border-radius: 3px;
                 color: #fff;
-                background-color: #20a0ff;
+                background-color: #50CB8D;
                 border: none;
                 outline: none;
+                text-align: right;
 
             }
             .but2 {
                 background: #999;
             }
         }
+    }
+    /*遮罩*/
+    .star-overlay{
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1001;
+    }
+    .star-dialog-mask{
+          background: #1f2226;
+      opacity: .6;
     }
 </style>
