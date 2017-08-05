@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseURL = 'http://192.168.8.177:4210';
+// const baseURL = 'http://192.168.8.177:4210';
+const baseURL = 'http://qa.51jianji.com:10001';
 var http = axios.create({
     baseURL: baseURL,
     headers: {
