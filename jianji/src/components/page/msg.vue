@@ -381,15 +381,13 @@
         mounted () {
             // 用js模拟后端数据格式，
             this.totalData = mockData;
-            this.tableData = this.countPage(this.pageSize);
-            this.items = this.tableData.data[this.pageIndex];
+            this.count();
             http.get('/api/invoices').then((res) => {
                 // 请求接口成功回调函数
                 // 正式数据在这里获取
                 console.log(res);
                 this.totalData = res;
-                this.tableData = this.countPage(this.pageSize);
-                this.items = this.tableData.data[this.pageIndex - 1];
+                this.count();
             }, (e) => {
                 console.error(e);
                 this.showInfoAlert('失败');
@@ -463,7 +461,8 @@
                     // 请求接口成功回调函数
                     // 正式数据在这里获取
                     // this.items.splice(this.selectItem.index, 1, res);
-                    this.items.splice(this.selectItem.index, 1, this.selectItem);
+                    // this.items.splice(this.selectItem.index, 1, this.selectItem);
+                    this.totalData.splice(this.selectItem.index + this.pageStartIndex, 1, this.selectItem);
                     this.selectItem = {};
                     this.setStatus = -1;
                     this.close('setTicket');
@@ -511,8 +510,8 @@
                         this.maskShow = false;
                         this.showModal('deltShow');
                     }, 200);
-                    this.items.splice(this.selectItem.index, 1);
-                    this.clone('deltShow');
+                    this.totalData.splice(this.selectItem.index + this.pageStartIndex, 1);
+                    this.close('deltShow');
                     this.setStatus = -1;
                 }, (e) => {
                     this.setStatus = -1;
@@ -544,6 +543,10 @@
                     temp.push(this.totalData.slice(i, i + num));
                 }
                 return {pages: count, data: temp};
+            },
+            count () {
+                this.tableData = this.countPage(this.pageSize);
+                this.items = this.tableData.data[this.pageIndex - 1];
             },
             LogOff () {
                 this.out = true;
