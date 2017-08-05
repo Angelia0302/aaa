@@ -108,7 +108,7 @@
                           rows="4"></textarea>
             </div>
             <div class="button" style="text-align: right;">
-                <button class="but1" @click="updateTicket">开票</button>
+                <button class="but1" @click="updateTicket('setTicket')">开票</button>
                 <button class="but2" @click="close('setTicket')">取消</button>
             </div>
             <div class="from_tom">
@@ -200,7 +200,7 @@
                           rows="4"></textarea>
             </div>
             <div class="button" style="text-align: right;">
-                <button class="but1" @click="updateTicket">保存</button>
+                <button class="but1" @click="updateTicket('modifyShow')">保存</button>
                 <button class="but2" @click="close('modifyShow')">取消</button>
 
             </div>
@@ -286,7 +286,7 @@
                 <input type="text" readonly v-model="selectItem.invoiceNumber">
             </p>
             <div class="button" style="text-align: center;">
-                <button class="but1" @click="updateTicket">确定</button>
+                <button class="but1" @click="updateTicket('redShow')">确定</button>
                 <button class="but2" @click="close('redShow')">取消</button>
             </div>
         </div>
@@ -445,7 +445,7 @@
                 this.showModal('setTicket');
                 this.maskShow = true;
             },
-            updateTicket () {
+            updateTicket (type) {
                 delete this.selectItem.index;
                 this.showLoading();
                 this.setStatus > -1 ? this.selectItem.status = this.setStatus : '';
@@ -465,7 +465,7 @@
                     this.totalData.splice(this.selectItem.index + this.pageStartIndex, 1, this.selectItem);
                     this.selectItem = {};
                     this.setStatus = -1;
-                    this.close('setTicket');
+                    this.close(type);
                 }, (e) => {
                     this.setStatus = -1;
                     this.hideLoading();
