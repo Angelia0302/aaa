@@ -41,7 +41,7 @@
                     </thead>
                     <tbody>
                     <tr v-for='(main, i) in items' class="hover">
-                        <td colspan="0" border="1">{{i+1}}</td>
+                        <td colspan="0" border="1">{{pageStartIndex + i}}</td>
                         <td colspan="0" border="1" class="spanStyle">
                         <span @click.stop="billClick(i, 1)"
                               :class="{'btn-disable': !canSetClick(main.status)}">开票</span>
@@ -305,17 +305,16 @@
                 <button class="but2" @click="close('deltShow')">取消</button>
             </div>
         </div>
-        <!--<div class="fenye">-->
-            <!--<el-pagination-->
-                <!--v-bind:current-Page="pageIndex"-->
-                <!--v-bind:page-size="pageSize" :total="total"-->
-                <!--layout="total,sizes,prev,pager,next,jumper"-->
-                <!--v-bind:page-sizes="pageSizes"-->
-                <!--v-on:size-change="sizeChange"-->
-                <!--v-on:current-change="pageIndexChange">-->
+        <div class="fenye">
+            <el-pagination
+                v-bind:current-Page="pageIndex + 1"
+                v-bind:page-size="pageSize"
+                :page-count="totalItems"
+                layout="total,prev,pager,next,jumper"
+                v-on:current-change="pageIndexChange">
 
-            <!--</el-pagination>-->
-        <!--</div>-->
+            </el-pagination>
+        </div>
 
     </div>
 </template>
@@ -333,9 +332,15 @@
                 items: '',
                 out: true,
                 value1: false,
-                pageIndex: 14,
                 maskShow: false,
                 setStatus: -1,
+                // 全部数据
+                totalData: [],
+                tableData: [],
+                totalItems: 1,
+                pageIndex: 1,
+                pageSize: 15,
+                pageStartIndex: 1,
                 // 选中的数据
                 selectItem: {},
                 // 填写开票的信息
@@ -375,12 +380,16 @@
         },
         mounted () {
             // 用js模拟后端数据格式，
-            this.items = mockData;
+            this.totalData = mockData;
+            this.tableData = this.countPage(this.pageSize);
+            this.items = this.tableData.data[this.pageIndex];
             http.get('/api/invoices').then((res) => {
                 // 请求接口成功回调函数
                 // 正式数据在这里获取
                 console.log(res);
-                this.items = res;
+                this.totalData = res;
+                this.tableData = this.countPage(this.pageSize);
+                this.items = this.tableData.data[this.pageIndex - 1];
             }, (e) => {
                 console.error(e);
                 this.showInfoAlert('失败');
@@ -522,16 +531,27 @@
                 this.alertType[type] = false;
                 this.maskShow = false;
             },
+            // 计算分页
+            countPage (num = 15) {
+                let len = this.totalData.length,
+                    count = len / num >> 0,
+                    temp = [];
+                if (len % num > 0) {
+                    this.totalItems = count = count + 1;
+                }
+                console.log(this.totalItems);
+                for (let i = 0; i < len; i += num) {
+                    temp.push(this.totalData.slice(i, i + num));
+                }
+                return {pages: count, data: temp};
+            },
             LogOff () {
                 this.out = true;
             },
-            sizeChange (pageSize) {
-                this.pageSize = pageSize;
-                this.fetchData();
-            },
             pageIndexChange (pageIndex) {
                 this.pageIndex = pageIndex;
-                this.fetchData();
+                this.items = this.tableData.data[this.pageIndex - 1];
+                this.pageStartIndex = this.pageSize * (this.pageIndex - 1) + 1;
             },
             // 时间转换
             dateFormat (fmt, time) {
@@ -568,7 +588,7 @@
         min-height: 100%;
         padding-left: 180px;
         padding-right: 60px;
-        overflow-x: auto;
+        padding-bottom: 50px;
         input {
             height: 25px;
             border: 1px solid #999;
